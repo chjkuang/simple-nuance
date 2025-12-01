@@ -3,49 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coach & Physio Training Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>人文耶拿 Hujenaplan - 打造臺灣耶拿教育典範</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        /* 全局設定 */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        body {
             font-family: 'Noto Sans TC', sans-serif;
         }
-
-        /* 背景圖片區塊 */
-        .hero {
-            /* 這裡使用 Unsplash 的高品質圖庫連結，主題是：陽光、健身、平靜 */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-position: center;
-            background-repeat: no-repeat;
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            position: relative;
+            background-position: center;
         }
-
-        /* 內容容器 */
-        .content {
-            max-width: 800px;
-            padding: 20px;
-            animation: fadeIn 1.5s ease-out;
+        .jena-orange {
+            color: #E85D3F; 
         }
-
-        /* 標題與副標題 */
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        .bg-jena-orange {
+            background-color: #E85D3F;
         }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
 
-        p.quote {
-            font-size: 1.2rem;
-            margin-bottom: 2rem
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <i class="fa-solid fa-seedling jena-orange"></i>
+                人文耶拿 <span class="text-sm font-normal text-gray-500 hidden md:inline-block">Hujenaplan</span>
+            </a>
+            <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a href="#vision" class="hover:text-orange-600 transition">核心理念</a>
+                <a href="#goals" class="hover:text-orange-600 transition">三大目標</a>
+                <a href="#features" class="hover:text-orange-600 transition">辦學特色</a>
+                <a href="#roadmap" class="hover:text-orange-600 transition">轉型計畫</a>
+                <a href="#contact" class="hover:text-orange-600 transition">聯絡我們</a>
+            </div>
+            <button class="md:hidden text-gray-600">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero-bg h-screen flex items-center justify-center text-center px-4 relative" id="home">
+        <div class="text-white max-w-4xl">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                人文新生：打造臺灣耶拿教育典範
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 font-light text-gray-100">
