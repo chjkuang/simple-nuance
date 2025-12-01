@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>疼痛監控與調整系統</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f7f9fc; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
+        h1 { font-size: 1.5rem; text-align: center; color: #2c3e50; margin-bottom: 5px; }
+        h2 { font-size: 1.1rem; color: #555; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
+        .subtitle { text-align: center; color: #7f8c8d; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .slider-container { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; display: flex; justify-content: space-between; }
+        input[type=range] { width: 100%; cursor: pointer; }
+        .val-display { color: #3498db; font-weight: bold; }
+        
+        button { width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #2980b9; }
+        
+        #result-area { display: none; margin-top: 20px; animation: fadeIn 0.5s; }
+        .status-box { padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 6px solid; }
+        .status-red { background-color: #ffeaea; border-color: #e74c3c; color: #c0392b; }
+        .status-yellow { background-color: #fff8e1; border-color: #f1c40f; color: #f39c12; }
+        .status-green { background-color: #e8f8f5; border-color: #27ae60; color: #27ae60; }
+        
+        .advice-box { background: #f8f9fa; padding: 15px; border-radius: 8px; font-size: 0.95rem; line-height: 1.6; }
+        .advice-title { font-weight: bold; margin-bottom: 5px; color: #2c3e50; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <h1>🏋️ 疼痛監控與調整系統</h1>
+    <div class="subtitle">Rehab & Performance Monitoring</div>
+
+    <div class="card">
+        <h2>1. 輸入數據 (VAS 0-10)</h2>
+        
+        <div class="slider-container">
+            <label>運動前基準 (Baseline) <span id="val-before" class="val-display">0</span></label>
+            <input type="range" id="before" min="0" max="10" value="0" oninput="updateVal('before')">
+        </div>
+        
+        <div class="slider-container">
+            <label>運動中最高值 (During) <span id="val-during" class="val-display">0</span></label>
+            <input type="range" id="during" min="0" max="10" value="0" oninput="updateVal('during')">
+        </div>
+        
+        <div class="slider-container">
+            <label>運動剛結束 (Post) <span id="val-after" class="val-display">0</span></label>
+            <input type="range" id="after" min="0" max="10" value="0" oninput="updateVal('after')">
+        </div>
+        
+        <div class="slider-container">
+            <label>隔天 24hr 後 (Next Day) <span id="val-next" class="val-display">0</span></label>
+            <input type="range" id="next" min="0" max="10" value="0" oninput="updateVal('next')">
+        </div>
+
+        <button onclick="analyze()">📊 分析並取得建議</button>
+    </div>
+
+    <div id="result-area">
+        <div id="status-box" class="status-box"></div>
+        
+        <div class="card">
+            <canvas id="painChart"></canvas>
+        </div>
+
+        <div class="card advice-box">
+            <div class="advice-title">💡 訓練建議：</div>
+            <div id="advice-text"></div>
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+            <div class="advice-title">🔍 機制說明：</div>
+            <div id="mechanism-text" style="color:#666; font-size:0.9rem;"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateVal(id) {
+            document.getElementById('val-' + id).innerText = document.getElementById(id).value;
+        }
+
+        let myChart = null;
+
+        function analyze() {
+            // 取得數值
+            const before = parseInt(document.getElementById('before').value);
+            const during = parseInt(document.getElementById('during').value);
+            const after = parseInt(document.getElementById('after').value);
+            const next = parseInt(document.getElementById('next').value);
+
+            const baselineDiff = next - before;
+            let result = {};
+
+            // 邏輯判斷 (Traffic Light)
+            if (baselineDiff > 0 || during > 5) {
+                result = {
+                    color: 'red',
+                    title: '🔴 紅燈：負荷過重 (Overload)',
+                    advice: '請降低強度或改變動作，直到疼痛回到基準線。<br>您的組織耐受度已超過極限。',
+                    mechanism: '隔天疼痛高於基準，代表發炎反應未在 24 小時內消退；或當下疼痛過高影響控制。',
+                    cssClass: 'status-red'
+                };
+            } else if ((during >= 4 || after >= 4) && baselineDiff <= 0) {
+                result = {
+                    color: 'yellow',
+                    title: '🟡 黃燈：觀察期 (Monitor)',
+                    advice: '維持目前強度，不要增加負荷。密切觀察下一次反應。<br>這是身體適應的臨界點。',
+                    mechanism: '雖有中度疼痛，但隔天已恢復。代表劑量可吸收但處於邊緣。',
+                    cssClass: 'status-yellow'
+                };
+            } else {
+                result = {
+                    color: 'green',
+                    title: '🟢 綠燈：安全可進階 (Safe)',
+                    advice: '可維持目前強度，或嘗試微幅增加重量/次數。<br>神經肌肉系統適應良好。',
+                    mechanism: '疼痛控制良好，且無延遲性發炎反應。',
+                    cssClass: 'status-green'
+                };
+            }
+
+            // 更新介面
+            const resArea = document.getElementById('result-area');
+            const statusBox = document.getElementById('status-box');
+            
+            resArea.style.display = 'block';
+            statusBox.className = 'status-box ' + result.cssClass;
+            statusBox.innerHTML = `<h3>${result.title}</h3>`;
+            
+            document.getElementById('advice-text').innerHTML = result.advice;
+            document.getElementById('mechanism-text').innerText = result.mechanism;
+
+            // 繪製圖表
+            updateChart(before, during, after, next, result.color);
+            
+            // 捲動到結果
+            resArea.scrollIntoView({behavior: "smooth"});
+        }
+
+        function updateChart(b, d, a, n, statusColor) {
+            const ctx = document.getElementById('painChart').getContext('2d');
+            
+            let lineColor = '#27ae60'; // green
+            if(statusColor === 'red') lineColor = '#c0392b';
+            if(statusColor === 'yellow') lineColor = '#f39c12';
+
+            if (myChart) myChart.destroy();
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Baseline', 'During', 'Post', 'Next Day'],
+                    datasets: [{
+                        label: '疼痛變化 (VAS)',
+                        data: [b, d, a, n],
+                        borderColor: lineColor,
+                        backgroundColor: lineColor,
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, max: 10, title: {display:true, text:'VAS Score'} }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
