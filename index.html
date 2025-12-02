@@ -3,60 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>疼痛追蹤系統首頁</title>
+    <title>我的工具箱</title>
     <style>
-        /* 簡單的 CSS 樣式，讓畫面居中且整潔 */
+        /* 基礎設定 */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f6f8;
+            background-color: var(--bg-color);
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 20px;
             color: #333;
         }
-        .container {
+
+        /* 標題區域 */
+        header {
             text-align: center;
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 90%;
+            margin-bottom: 40px;
+            padding-top: 20px;
         }
+
         h1 {
-            margin-top: 0;
-            font-size: 1.5rem;
-            color: #2c3e50;
+            color: var(--primary-color);
+            margin-bottom: 10px;
         }
-        p {
+
+        p.subtitle {
             color: #666;
-            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
-        .btn {
-            display: inline-block;
-            background-color: #007bff; /* 藍色按鈕 */
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+
+        /* 卡片網格佈局 */
+        .grid-container {
+            display: grid;
+            /* 自動適應寬度：手機單欄，電腦多欄 */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        .btn:hover {
-            background-color: #0056b3; /* 滑鼠懸停變深色 */
+
+        /* 單個工具卡片設計 */
+        .tool-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            text-decoration: none; /* 移除連結底線 */
+            color: inherit;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 滑鼠移過去的效果 */
+        .tool-card:hover {
+            transform: translateY(-5px); /* 輕微浮起 */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent-color);
+        }
+
+        .tool-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            color: var(--accent-color);
+        }
+
+        .tool-card p {
+            margin: 0;
+            color: #666;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #999;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>疼痛監測追蹤器</h1>
-        <p>歡迎使用，請點擊下方按鈕開始記錄您的數據。</p>
-        
-        <a href="pain_tracker.html" class="btn">開啟應用程式</a>
+    <header>
+        <h1>線上工具平台</h1>
+        <p class="subtitle">請選擇您要使用的工具</p>
+    </header>
+
+    <div class="grid-container">
+
+        <a href="pain_tracker.html" class="tool-card">
+            <h2>疼痛監測追蹤</h2>
+            <p>透過 VAS 量表記錄運動前後的疼痛指數，並獲得即時建議。</p>
+        </a>
+
+        <a href="#" class="tool-card" style="opacity: 0.6; cursor: not-allowed;">
+            <h2>(範例) 呼吸訓練</h2>
+            <p>即將推出：引導式呼吸放鬆工具。</p>
+        </a>
+
+        <a href="#" class="tool-card" style="opacity: 0.6; cursor: not-allowed;">
+            <h2>(範例) 另一個新功能</h2>
+            <p>更多功能開發中...</p>
+        </a>
+
     </div>
+
+    <footer>
+        &copy; 2025 My Personal Tools
+    </footer>
 
 </body>
 </html>
