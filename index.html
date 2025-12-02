@@ -3,52 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>人文耶拿 Hujenaplan - 打造臺灣耶拿教育典範</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <title>疼痛追蹤系統首頁</title>
     <style>
+        /* 簡單的 CSS 樣式，讓畫面居中且整潔 */
         body {
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
         }
-        .hero-bg {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
         }
-        .jena-orange {
-            color: #E85D3F; 
+        h1 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #2c3e50;
         }
-        .bg-jena-orange {
-            background-color: #E85D3F;
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #007bff; /* 藍色按鈕 */
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3; /* 滑鼠懸停變深色 */
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-    <nav class="bg-white shadow-md fixed w-full z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                <i class="fa-solid fa-seedling jena-orange"></i>
-                人文耶拿 <span class="text-sm font-normal text-gray-500 hidden md:inline-block">Hujenaplan</span>
-            </a>
-            <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
-                <a href="#vision" class="hover:text-orange-600 transition">核心理念</a>
-                <a href="#goals" class="hover:text-orange-600 transition">三大目標</a>
-                <a href="#features" class="hover:text-orange-600 transition">辦學特色</a>
-                <a href="#roadmap" class="hover:text-orange-600 transition">轉型計畫</a>
-                <a href="#contact" class="hover:text-orange-600 transition">聯絡我們</a>
-            </div>
-            <button class="md:hidden text-gray-600">
-                <i class="fa-solid fa-bars text-2xl"></i>
-            </button>
-        </div>
-    </nav>
+    <div class="container">
+        <h1>疼痛監測追蹤器</h1>
+        <p>歡迎使用，請點擊下方按鈕開始記錄您的數據。</p>
+        
+        <a href="pain_tracker.html" class="btn">開啟應用程式</a>
+    </div>
 
-    <header class="hero-bg h-screen flex items-center justify-center text-center px-4 relative" id="home">
-        <div class="text-white max-w-4xl">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                人文新生：打造臺灣耶拿教育典範
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 font-light text-gray-100">
+</body>
+</html>
